@@ -36,6 +36,24 @@ pub struct Page {
 }
 
 impl Page {
+
+    /// Create a new `Page`.
+    ///
+    /// `smaller`: Controls the direction of the pagination.
+    ///
+    /// - `true`: Select the rows towards the direction in which the cursor becomes smaller.
+    ///   The returned rows will be sorted `desc`.
+    /// - `false`: Select the rows towards the direction in which the cursor becomes bigger.
+    ///   The returned rows will be sorted `asc`.
+    ///
+    /// For example, if the sorting columns are `(time_of_insertion, table_pkey)`,
+    /// and you want to scroll to the past, you should set `smaller = true`.
+    ///
+    /// `size`: Size of the page.
+    ///
+    /// `columns`:
+    /// Sort rows using these columns (up to 5).
+    /// Note that the joint of these columns should uniquely identifies a row.
     pub fn new(smaller: bool, size: u32, columns: Vec<String>) -> Self {
         // When smaller: 7 6 5 4 3 => order desc, col < 7
         // When larger : 3 4 5 6 7 => order asc,  col > 3
@@ -51,6 +69,14 @@ impl Page {
     }
 
 
+    /// Push the pagination condition to the `builder: QueryBuilder`.
+    ///
+    /// Roughly, `push_whereN` pushes and binds `(col_1, col_2, ..., col_N) op ($_, $_, ..., $_)`
+    /// to the `builder`, where `op` is chosen according to the pagination direction,
+    /// and `N` is the number of cursor columns.
+    ///
+    /// Note, internally this calls `builder::push/push_bind`,
+    /// so it is as secure as the `QueryBuilder`.
     pub fn push_where1<'args, T1>(&self, builder: &mut sqlx::QueryBuilder<'args, sqlx::Postgres>, cursors: Option<T1>)
         where
             T1: 'args + sqlx::Encode<'args, sqlx::Postgres> + sqlx::Type <sqlx::Postgres> + Send
@@ -136,6 +162,7 @@ impl Page {
         }
     }
 
+    /// Push the order by clause `order by (col_1, ...) asc/desc`.
     pub fn push_order_by(&self, builder: &mut sqlx::QueryBuilder <sqlx::Postgres>) {
         builder.push(" ");
         builder.push("order by");
@@ -150,6 +177,7 @@ impl Page {
         }
     }
 
+    /// Push the limit clause `limit k`.
     pub fn push_limit(&self, builder: &mut sqlx::QueryBuilder <sqlx::Postgres>) {
         builder.push(" ");
         builder.push("limit");
