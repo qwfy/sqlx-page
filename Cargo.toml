@@ -1,6 +1,11 @@
 [package]
 name = "sqlx-page"
+description = "Cursor based pagination for SQLx"
 version = "0.5.0"
+authors = ["Incomplete <incomplete@aixon.co>"]
+homepage = "https://github.com/qwfy/sqlx-page"
+repository = "https://github.com/qwfy/sqlx-page.git"
+license = "MIT"
 edition = "2021"
 
 [dependencies]
