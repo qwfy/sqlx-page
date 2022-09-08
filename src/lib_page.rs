@@ -6,10 +6,12 @@ macro_rules! push_where {
         $builder.push("(");
 
         // (col1, col2, ...)
+        $builder.push("(");
         let mut sep = $builder.separated(", ");
         for col in &$self.columns {
             sep.push(col);
         }
+        $builder.push(")");
 
         // operator, < or >
         $builder.push(" ");
@@ -17,10 +19,12 @@ macro_rules! push_where {
         $builder.push(" ");
 
         // ($_, $_, ...)
+        $builder.push("(");
         let mut sep = $builder.separated(", ");
         $(
             sep.push_bind($cursor);
         )+
+        $builder.push(")");
 
         $builder.push(")");
     }}
@@ -183,6 +187,6 @@ impl Page {
         builder.push("limit");
 
         builder.push(" ");
-        builder.push_bind(self.size);
+        builder.push_bind(self.size as i64);
     }
 }
