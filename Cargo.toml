@@ -1,7 +1,7 @@
 [package]
 name = "sqlx-page"
-description = "Cursor based pagination for SQLx"
-version = "0.6.1"
+description = "Cursor based pagination for SQLx with Postgres"
+version = "0.8.0"
 authors = ["Incomplete <incomplete@aixon.co>"]
 homepage = "https://github.com/qwfy/sqlx-page"
 repository = "https://github.com/qwfy/sqlx-page.git"
@@ -9,16 +9,5 @@ license = "MIT"
 edition = "2021"
 
 [dependencies]
-sqlx = { version = ">=0.6.1", default-features = false }
-
-[features]
-default = ["runtime-tokio-native-tls", "postgres"]
-
-# These are features from crate sqlx
-postgres = ["sqlx/postgres"]
-runtime-async-std-native-tls = ["sqlx/runtime-async-std-native-tls"]
-runtime-async-std-rustls = ["sqlx/runtime-async-std-rustls"]
-runtime-tokio-native-tls = ["sqlx/runtime-tokio-native-tls"]
-runtime-tokio-rustls = ["sqlx/runtime-tokio-rustls"]
-runtime-actix-native-tls = ["sqlx/runtime-actix-native-tls"]
-runtime-actix-rustls = ["sqlx/runtime-actix-rustls"]
+sqlx = { version = ">=0.8.0", default-features = false, features = ["postgres"] }
+serde = { version = "1.0", features = ["derive"] }

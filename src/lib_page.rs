@@ -32,16 +32,16 @@ macro_rules! push_where {
 
 
 /// The struct used to perform pagination
-pub struct Page {
+pub struct Pagination {
     columns: Vec<String>,
     compare: &'static str,
     sort: &'static str,
     size: u32,
 }
 
-impl Page {
+impl Pagination {
 
-    /// Create a new `Page`.
+    /// Create a new `Pagination`.
     ///
     /// `smaller`: Controls the direction of the pagination.
     ///
@@ -64,7 +64,7 @@ impl Page {
         let compare = if smaller { "<" } else { ">" };
         let sort = if smaller { "desc" } else { "asc" };
 
-        Page {
+        Pagination {
             columns,
             compare,
             sort,

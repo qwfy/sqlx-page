@@ -1,8 +1,8 @@
 use sqlx::QueryBuilder;
-use sqlx_page::Page;
+use sqlx_page::Pagination;
 
 fn main() {
-    let page = Page::new(
+    let pagination = Pagination::new(
         // Direction to select rows.
         // If true, will select rows in the "smaller" direction,
         // e.g. if your want to sort by the time,
@@ -26,13 +26,13 @@ fn main() {
 
     // Push and bind the pagination condition: `(row_id < $_)`.
     // `push_where2..5` are also defined, they are used if your cursor consists of multiple columns
-    page.push_where1(&mut builder, Some(11));
+    pagination.push_where1(&mut builder, Some(11));
 
     // Push the order by clause: `order by row_id desc`
-    page.push_order_by(&mut builder);
+    pagination.push_order_by(&mut builder);
 
     // Push the limit clause: `limit 100`
-    page.push_limit(&mut builder);
+    pagination.push_limit(&mut builder);
 
     // ... Use the builder as usual
 }
