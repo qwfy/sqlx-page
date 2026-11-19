@@ -9,5 +9,5 @@ license = "MIT"
 edition = "2021"
 
 [dependencies]
-sqlx = { version = ">=0.8.0", default-features = false, features = ["postgres"] }
+sqlx = { version = "=0.8.6", default-features = false, features = ["postgres"] }
 serde = { version = "1.0", features = ["derive"] }
